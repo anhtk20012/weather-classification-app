@@ -3,16 +3,16 @@ from PIL import Image
 import tensorflow as tf
 from pathlib import Path
 
-MODEL_PATH = Path(__file__).parent / "models" / "model_epoch_12.keras"
-IMG_SIZE = (224, 224)
+path_file = Path(__file__).parent / "models" / "model_epoch_12.keras"
+img_size = (224, 224)
 
 LABELS = ["Cloudy", "Rain", "Shine", "Sunrise"]
 
 def load_model():
-    return tf.keras.models.load_model(MODEL_PATH)
+    return tf.keras.models.load_model(path_file)
 
 def preprocess(img: Image.Image):
-    img = img.resize(IMG_SIZE)
+    img = img.resize(img_size)
     img = np.array(img).astype('float32') / 255.0
     if img.shape[-1] == 4:  # RGBA → RGB
         img = img[..., :3]
