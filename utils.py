@@ -2,6 +2,7 @@ import numpy as np
 from PIL import Image
 import tensorflow as tf
 from pathlib import Path
+from huggingface_hub import hf_hub_download
 
 path_file = Path(__file__).parent / "models" / "model_epoch_12.keras"
 img_size = (224, 224)
@@ -9,7 +10,18 @@ img_size = (224, 224)
 LABELS = ["Cloudy", "Rain", "Shine", "Sunrise"]
 
 def load_model():
-    return tf.keras.models.load_model(path_file)
+    try:
+        model = tf.keras.models.load_model(path_file)
+    except Exception:
+        path_file.parent.mkdir(parents=True, exist_ok=True)
+        hf_hub_download(
+            repo_id="tronganhwork/weather-classification-app",
+            filename="model_epoch_12.keras",
+            local_dir=path_file.parent,
+            local_dir_use_symlinks=False,
+        )
+        model = tf.keras.models.load_model(path_file)
+    return model
 
 def preprocess(img: Image.Image):
     img = img.resize(img_size)

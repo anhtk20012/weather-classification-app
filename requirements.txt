@@ -3,3 +3,7 @@ streamlit
 numpy
 pillow
 plotly
+<<<<<<< HEAD
+=======
+huggingface_hub
+>>>>>>> d77b7f0 (upload req and utils)
